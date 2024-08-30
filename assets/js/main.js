@@ -2,7 +2,7 @@
 async function fetchWorks() {
     try {
         // Appel à l'API pour récupérer les travaux
-        const response = await fetch("http://localhost:5678/works");
+        const response = await fetch("http://localhost:5678/api/works");
         
         // Vérification que la requête s'est bien passée
         if (!response.ok) {
