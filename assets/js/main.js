@@ -1,67 +1,73 @@
-document.addEventListener('DOMContentLoaded', async function() {
-    const worksContainer = document.getElementById('works-container'); // Conteneur pour les travaux
-    const filterContainer = document.getElementById('filter-button');  // Conteneur pour les boutons de filtre
+import { checkAuthToken } from './auth.js';
 
-    try {
-        // Récupérer les travaux depuis l'API
-        const worksResponse = await fetch('http://localhost:5678/api/works');
-        const works = await worksResponse.json();
+// Vérification de l'authentification au chargement de la page
+window.onload = function() {
+  checkAuthToken();
+};
 
-        // Récupérer les catégories depuis l'API
-        const categoriesResponse = await fetch('http://localhost:5678/api/categories');
-        const categories = await categoriesResponse.json();
+// Sélectionner les éléments du DOM
+const worksContainer = document.getElementById('works-container'); // Conteneur pour les travaux
+const filterButtons = document.querySelectorAll('#filter-container button'); // Sélectionne les boutons de filtre
 
-        // Afficher les travaux par défaut (tous les travaux)
-        renderWorks(works);
+// Fonction pour récupérer et afficher les travaux
+async function loadWorks() {
+  try {
+    // Récupérer les travaux depuis l'API
+    const worksResponse = await fetch('http://localhost:5678/api/works');
+    const works = await worksResponse.json();
 
-        // Créer un bouton "Tous" pour afficher tous les travaux
-        createButton('Tous', () => renderWorks(works), true);
+    // Afficher tous les travaux par défaut
+    renderWorks(works);
 
-        // Créer un bouton pour chaque catégorie
-        categories.forEach(category => {
-            createButton(category.name, () => {
-                const filteredWorks = works.filter(work => work.categoryId === category.id);
-                renderWorks(filteredWorks);
-            });
-        });
-    } catch (error) {
-        console.error('Erreur lors de la récupération des données:', error);
-    }
+    // Ajouter des événements de clic aux boutons de filtre
+    filterButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Désactiver tous les boutons actifs
+        filterButtons.forEach(btn => btn.classList.remove('active'));
 
-    // Fonction pour créer un bouton de filtre
-    function createButton(label, onClick, isActive = false) {
-        const button = document.createElement('button');
-        button.textContent = label;
-        button.classList.toggle('active', isActive); // Ajouter la classe 'active' si c'est le bouton par défaut
+        // Activer le bouton cliqué
+        button.classList.add('active');
 
-        // Ajouter l'événement de clic
-        button.addEventListener('click', function() {
-            // Retirer la classe 'active' de tous les boutons
-            document.querySelectorAll('#filter-button button').forEach(btn => btn.classList.remove('active'));
+        // Appliquer le filtre correspondant
+        applyFilter(button.textContent, works);
+      });
+    });
+  } catch (error) {
+    console.error('Erreur lors de la récupération des travaux :', error);
+  }
+}
 
-            // Ajouter la classe 'active' au bouton cliqué
-            button.classList.add('active');
+// Fonction pour appliquer le filtre en fonction du texte du bouton
+function applyFilter(category, works) {
+  if (category === 'Tous') {
+    renderWorks(works); // Afficher tous les travaux
+  } else {
+    // Filtrer les travaux en fonction de la catégorie
+    const filteredWorks = works.filter(work => work.category.name === category);
+    renderWorks(filteredWorks);
+  }
+}
 
-            // Appeler la fonction associée au bouton (pour filtrer les travaux)
-            onClick();
-        });
+// Fonction pour afficher les travaux
+function renderWorks(worksToRender) {
+  worksContainer.innerHTML = ''; // Vider le conteneur avant d'ajouter de nouveaux éléments
 
-        filterContainer.appendChild(button);
-    }
+  worksToRender.forEach(work => {
+    const workElement = document.createElement('figure');
+    const imgElement = document.createElement('img');
+    const captionElement = document.createElement('figcaption');
 
-    // Fonction pour afficher les travaux dans le conteneur
-    function renderWorks(worksToRender) {
-        worksContainer.innerHTML = ''; // Vider le conteneur avant d'ajouter de nouveaux éléments
+    imgElement.src = work.imageUrl;
+    imgElement.alt = work.title;
+    captionElement.textContent = work.title;
 
-        // Ajouter chaque travail au conteneur
-        worksToRender.forEach(work => {
-            const workElement = document.createElement('div');
-            workElement.classList.add('work-item');
-            workElement.innerHTML = `
-                <img src="${work.imageUrl}" alt="${work.title}">
-                <h3>${work.title}</h3>
-            `;
-            worksContainer.appendChild(workElement);
-        });
-    }
-});
+    workElement.appendChild(imgElement);
+    workElement.appendChild(captionElement);
+
+    worksContainer.appendChild(workElement);
+  });
+}
+
+// Charger les travaux et les catégories au chargement de la page
+window.addEventListener('load', loadWorks);
+
