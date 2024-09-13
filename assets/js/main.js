@@ -1,34 +1,17 @@
-import { checkAuthToken } from './auth.js';
-
-// Vérification de l'authentification au chargement de la page
-window.onload = function() {
-  checkAuthToken();
-};
-
-// Sélectionner les éléments du DOM
-const worksContainer = document.getElementById('works-container'); // Conteneur pour les travaux
-const filterButtons = document.querySelectorAll('#filter-container button'); // Sélectionne les boutons de filtre
+const worksContainer = document.getElementById('works-container');
+const filterButtons = document.querySelectorAll('#filter-container button');
 
 // Fonction pour récupérer et afficher les travaux
 async function loadWorks() {
   try {
-    // Récupérer les travaux depuis l'API
     const worksResponse = await fetch('http://localhost:5678/api/works');
     const works = await worksResponse.json();
-
-    // Afficher tous les travaux par défaut
     renderWorks(works);
 
-    // Ajouter des événements de clic aux boutons de filtre
     filterButtons.forEach(button => {
       button.addEventListener('click', function() {
-        // Désactiver tous les boutons actifs
         filterButtons.forEach(btn => btn.classList.remove('active'));
-
-        // Activer le bouton cliqué
         button.classList.add('active');
-
-        // Appliquer le filtre correspondant
         applyFilter(button.textContent, works);
       });
     });
@@ -37,12 +20,11 @@ async function loadWorks() {
   }
 }
 
-// Fonction pour appliquer le filtre en fonction du texte du bouton
+// Fonction pour appliquer le filtre
 function applyFilter(category, works) {
   if (category === 'Tous') {
-    renderWorks(works); // Afficher tous les travaux
+    renderWorks(works);
   } else {
-    // Filtrer les travaux en fonction de la catégorie
     const filteredWorks = works.filter(work => work.category.name === category);
     renderWorks(filteredWorks);
   }
@@ -50,8 +32,7 @@ function applyFilter(category, works) {
 
 // Fonction pour afficher les travaux
 function renderWorks(worksToRender) {
-  worksContainer.innerHTML = ''; // Vider le conteneur avant d'ajouter de nouveaux éléments
-
+  worksContainer.innerHTML = ''; 
   worksToRender.forEach(work => {
     const workElement = document.createElement('figure');
     const imgElement = document.createElement('img');
@@ -68,6 +49,39 @@ function renderWorks(worksToRender) {
   });
 }
 
-// Charger les travaux et les catégories au chargement de la page
+// Charger les travaux au chargement de la page
 window.addEventListener('load', loadWorks);
 
+// Sélection du bouton login/logout
+const loginLogoutBtn = document.querySelector('nav ul li:nth-child(3)');
+
+// Vérification du token dans localStorage
+function checkLoginStatus() {
+    const token = localStorage.getItem('token'); // Récupérer le token stocké
+  
+    if (token) {
+        // Si le token est présent, l'utilisateur est connecté
+        loginLogoutBtn.textContent = 'logout'; // Afficher "logout"
+        loginLogoutBtn.removeEventListener('click', handleLogin); // Enlever l'événement login
+        loginLogoutBtn.addEventListener('click', handleLogout); // Ajouter l'événement logout
+    } else {
+        // Si pas de token, l'utilisateur n'est pas connecté
+        loginLogoutBtn.textContent = 'login'; // Afficher "login"
+        loginLogoutBtn.removeEventListener('click', handleLogout); // Enlever l'événement logout
+        loginLogoutBtn.addEventListener('click', handleLogin); // Ajouter l'événement login
+    }
+}
+
+// Gestion du clic sur "login"
+function handleLogin() {
+    window.location.href = 'login.html'; // Rediriger vers la page de connexion
+}
+
+// Gestion du clic sur "logout"
+function handleLogout() {
+    localStorage.removeItem('token'); // Supprimer le token
+    window.location.reload(); // Recharger la page pour actualiser l'état de connexion
+}
+
+// Appel pour vérifier l'état de connexion dès que la page est chargée
+window.addEventListener('load', checkLoginStatus);

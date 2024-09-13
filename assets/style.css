@@ -94,7 +94,7 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
-	
+	justify-content: flex-end;
 }
 nav li  {
 	padding: 0 10px;
@@ -105,6 +105,21 @@ nav li  {
 li:hover {
 	color: #B1663C;
 }
+
+/* Ajoutez cette classe dans votre fichier style.css */
+nav ul li {
+    cursor: pointer;
+}
+
+/* Pour rendre le bouton interactif (style similaire aux autres liens) */
+nav ul li:hover {
+    color: #B1663C; /* Changez la couleur à l'hover si nécessaire */
+}
+/* Ajoute ce style pour que "login" ait un pointeur */
+#menu-login {
+    cursor: pointer;
+}
+
 #login-section {
 	display: flex;
 	flex-direction: column;
@@ -122,8 +137,9 @@ li:hover {
   #login-form input {
 	padding: 10px;
 	font-size: 1em;
-	border: 1px solid #ddd;
+	border: 1px solid;
 	border-radius: 5px;
+	background-color: white;
   }
   
   #login-form button {
@@ -139,7 +155,14 @@ li:hover {
   }
   
   
-footer {
+footer li {
+	display: flex;
+    margin-top: 2rem;
+    font-size: 0.875rem;
+    color: red;
+	justify-content: flex-end;
+}
+footer  nav li {
 	display: flex;
     margin-top: 2rem;
     font-size: 0.875rem;
@@ -256,10 +279,3 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 60px ;
 }
-
-footer nav ul li {
-	display: flex;
-	justify-content: flex-end;
-	margin: 2em
-}
-

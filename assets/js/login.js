@@ -3,8 +3,9 @@ function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
-//Soumission du formulaire et appel à l'API
-document.getElementById('login-form').addEventListener('submit', async function(e) {
+  
+  // Soumission du formulaire et appel à l'API
+  document.getElementById('login-form').addEventListener('submit', async function(e) {
     e.preventDefault();
     
     const email = document.getElementById('email').value;
@@ -38,7 +39,7 @@ document.getElementById('login-form').addEventListener('submit', async function(
       const data = await response.json();
       
       // Stockage du token
-      localStorage.setItem('authToken', data.token);
+      localStorage.setItem('token', data.token);
   
       // Redirection vers la page d'accueil
       window.location.href = 'index.html';
