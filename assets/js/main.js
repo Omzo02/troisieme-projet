@@ -83,5 +83,31 @@ function handleLogout() {
     window.location.reload(); // Recharger la page pour actualiser l'état de connexion
 }
 
-// Appel pour vérifier l'état de connexion dès que la page est chargée
-window.addEventListener('load', checkLoginStatus);
+// Sélectionne les éléments nécessaires
+const modal = document.getElementById('modal');
+const openModalBtn = document.getElementById('open-modal'); // Bouton pour ouvrir la modale
+const closeModalBtn = document.querySelector('.close'); // Bouton "X" de fermeture
+const openAddPhotoBtn = document.getElementById('add-photo-btn'); // Bouton pour passer à l'ajout photo
+const backToGalleryBtn = document.getElementById('back-to-gallery'); // Bouton retour
+const galleryView = document.getElementById('gallery-view'); // Vue de la galerie
+const addPhotoView = document.getElementById('add-photo-view'); // Vue ajout de photo
+
+// Ouvrir la modale (Vue Galerie)
+openModalBtn.addEventListener('click', (event) => {
+  event.preventDefault(); 
+  modal.style.display = 'flex'; // Afficher la modale centrée grâce à flexbox
+  galleryView.style.display = 'block'; // Affiche la vue Galerie
+  addPhotoView.style.display = 'none'; // Cache la vue d'ajout au départ
+});
+
+// Fermer la modale
+closeModalBtn.addEventListener('click', () => {
+  modal.style.display = 'none'; // Cache la modale
+});
+
+// Fermer la modale si on clique en dehors du contenu
+window.addEventListener('click', (event) => {
+  if (event.target === modal) {
+    modal.style.display = 'none'; // Cache la modale si on clique en dehors
+  }
+});

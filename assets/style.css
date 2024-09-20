@@ -279,3 +279,546 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 60px ;
 }
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+	
+	
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/** end reset css**/
+body {
+	max-width: 1140px;
+	margin:auto;
+	font-family: 'Work Sans' ;
+	font-size: 14px;
+	display: flex;
+    flex-direction: column;
+   
+}
+header {
+	display: flex;
+	justify-content: space-between;
+	margin: 50px 0;
+	
+}
+section {
+	margin: 50px 0
+}
+
+h1{
+	display: flex;
+	flex-direction: column;
+	font-family: 'Syne';
+	font-size: 22px;
+	font-weight: 800;
+	color: #B1663C
+}
+
+h1 > span {
+	font-family: 'Work Sans';
+	font-size:10px;
+	letter-spacing: 0.1em;
+;
+}
+
+h2{
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 30px;
+	color: #1D6154
+}
+nav ul {
+	display: flex;
+	align-items: center;
+	list-style-type: none;
+	justify-content: flex-end;
+}
+nav li  {
+	padding: 0 10px;
+	font-size: 1.2em;
+	
+}
+
+li:hover {
+	color: #B1663C;
+}
+
+/* Ajoutez cette classe dans votre fichier style.css */
+nav ul li {
+    cursor: pointer;
+}
+
+/* Pour rendre le bouton interactif (style similaire aux autres liens) */
+nav ul li:hover {
+    color: #B1663C; /* Changez la couleur à l'hover si nécessaire */
+}
+/* Ajoute ce style pour que "login" ait un pointeur */
+#menu-login {
+    cursor: pointer;
+}
+
+#login-section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 100px;
+  }
+  
+  #login-form {
+	display: flex;
+	flex-direction: column;
+	width: 300px;
+	gap: 20px;
+  }
+  
+  #login-form input {
+	padding: 10px;
+	font-size: 1em;
+	border: 1px solid;
+	border-radius: 5px;
+	background-color: white;
+  }
+  
+  #login-form button {
+	width: 50%; /* Le bouton prend 50% de la largeur */
+	padding: 10px; /* Ajuste la taille interne pour rendre le bouton plus grand */
+	margin: 20px auto; /* Le centre horizontal */
+	display: block; /* Nécessaire pour centrer avec margin auto */
+	background-color: #1D6154; /* Couleur du bouton */
+	color: white;
+	border: none;
+	border-radius: 3.75rem;
+	font-size: 16px;
+  }
+  
+  
+footer li {
+	display: flex;
+    margin-top: 2rem;
+    font-size: 0.875rem;
+    color: red;
+	justify-content: flex-end;
+}
+footer  nav li {
+	display: flex;
+    margin-top: 2rem;
+    font-size: 0.875rem;
+    color: #333;
+	justify-content: flex-end;
+}
+
+#introduction {
+	display: flex;
+	align-items: center;
+}
+#introduction figure {
+	flex: 1
+}
+#introduction img {
+	display: block;
+	margin: auto;
+	width: 80%;
+}
+
+#introduction article {
+	flex: 1
+}
+#introduction h2 {
+	margin-bottom: 1em;
+}
+
+#introduction p {
+	margin-bottom: 0.5em;
+}
+#portfolio h2 {
+	text-align: center;
+	margin-bottom: 1em;
+	
+	
+}
+#filter-container {
+	display: flex;
+    justify-content: center;
+    gap: 0.62rem;
+    padding: 2rem;
+    flex-wrap: wrap
+}
+
+
+#filter-container button{
+	font-weight: 700;
+    text-align: center;
+    height: 2.3125rem;
+    border-radius: 3.75rem;
+    color: #1d6154;
+    background-color: #fffef8;
+    font-family: Syne;
+    font-size: 1rem;
+    padding: 0.56rem 2.56rem;
+    cursor: pointer;
+    border: 1px solid #1d6154;
+}
+
+#filter-container button.active{
+	color: white;
+	background-color: #1d6154;
+  }
+ 
+.gallery {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-column-gap: 20px;
+	grid-row-gap: 20px;
+}
+
+.gallery img {
+	width: 100%;
+
+}
+#contact {
+	width: 50%;
+margin: auto;
+}
+#contact > * {
+	text-align: center;
+
+}
+#contact h2{
+	margin-bottom: 20px;
+}
+#contact form {
+	text-align: left;
+	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+}
+
+#contact input {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#contact label {
+	margin: 2em 0 1em 0;
+}
+#contact textarea {
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+input[type="submit"]{
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin : 2em auto ;
+	width: 180px;
+	text-align: center;
+	border-radius: 60px ;
+}
+
+/* Style de la modale de base */
+.modal {
+	display: none; /* Caché par défaut */
+  	position: fixed;
+ 	z-index: 1000;
+  	left: 0;
+  	top: 0;
+  	width: 100%;
+  	height: 100%;
+  	background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+  	justify-content: center; /* Centrer horizontalement */
+  	align-items: center;     /* Centrer verticalement */
+	display: flex; /* Utilisation de Flexbox pour centrer */
+	align-items: center;
+}
+/* Style pour les images dans la modale */
+.modal img {
+	display: flex;
+	padding-bottom: 5px;
+	height: 150px;
+	cursor: pointer;
+	align-items: center;
+	justify-content: space-between;
+	object-fit: cover; /* Maintient les proportions des images */
+}
+
+/* Style pour la galerie dans la modale */
+.gallery-content {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr); /* 5 images par ligne */
+	margin-top: 46px;
+	padding-bottom: 46px;
+	border-bottom: 1px solid #b3b3b3;
+	justify-content: center;
+	position: relative;
+}
+
+.gallery-content figure {
+    position: relative;
+}
+
+
+.modal-content {
+    background-color: #fff;
+	padding: 30px;
+	border: 1px solid #888;
+	width: 50%;
+	width: 600px; /* Limite la taille maximale */
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.141);
+	position: relative;
+}
+.modal-view h2{
+	text-align: center;
+	margin-bottom: 10px;
+}
+.modal-view {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between; /* Espace égal entre les sections */
+	
+  }
+
+/* Position de l'icône de suppression */
+.delete-icon {
+    position: absolute;
+    top: 10px;   /* Ajuste la position verticale */
+    right: 10px; /* Ajuste la position horizontale */
+    font-size: 18px;
+    cursor: pointer;
+    background-color: white; /* Pour une meilleure visibilité */
+    padding: 5px;
+    height: 17px;
+	width: 17px;
+	z-index: 10;
+}
+/* Fermer la modale */
+.close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #006400;
+    color: #fff;
+    border: none;
+    border-radius: 3.75rem;
+    cursor: pointer;
+	
+}
+
+.add-photo-btn:hover {
+    background-color: #008000;
+}
+/* Style du lien "modifier" */
+.edit-link {
+	font-size: small;
+    text-decoration: none; /* Enlève le soulignement */
+    color: black; /* Applique la couleur noire */
+    font-weight: normal; /* Assure un style de texte normal */
+    display: inline-flex; /* Permet d'aligner l'icône et le texte horizontalement */
+    align-items: center; /* Aligne verticalement le texte et l'icône */
+}
+
+.edit-link i {
+    margin-right: 10px;
+	padding-left: 15px;
+}
+
+/* Changement de couleur au survol */
+.edit-link:hover {
+    color: #555; /* Change la couleur lors du survol */
+}
+/* Styles pour la modale */
+.modal-photo {
+	display: none; /* La modale est cachée par défaut */
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+  }
+  
+  
+  h2 {
+	text-align: center;
+	font-size: 1.8em;
+	margin-bottom: 20px;
+  }
+  
+  .back-btn {
+	font-size: 24px;
+	top: 10px;
+	left: 20px;
+	cursor: pointer;
+  }
+  
+  .add-photo-section {
+	margin-bottom: 20px;
+  }
+  .add-photo-section input{
+	width: 80%;
+  }
+  .add-photo-section label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 8px;
+	height: 100px;
+  }
+  
+  .photo-label {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 20px;
+	border: 2px; /* Border en pointillé */
+	cursor: pointer;
+	background-color: #f9f9f9;
+	border-radius: 10px;
+	transition: border-color 0.3s ease;
+  }
+  .add-photo-section button{
+	display: flex;
+	justify-content: center;
+    border-radius: 3rem;
+    cursor: pointer;
+	margin-top: 7px;
+	background-color: #cbd6dc;
+  }
+  .photo-label i {
+	font-size: 48px;
+	color: #888;
+	display: flex;
+	justify-content: center;
+	margin-top: 0px;
+	cursor: pointer;
+  }
+  
+  .photo-label:hover {
+	border-color: #666;
+  }
+  
+  .add-photo-section p {
+	font-size: x-small;
+	color: #666;
+	text-align: center;
+	margin-top: -7px;
+  }
+  
+  #photo-title,
+  #photo-category {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	font-size: 1em;
+  }
+  
+  .add-photo-actions {
+	text-align: center;
+  }
+  
+  .add-photo-actions .btn {
+	padding: 12px 20px;
+	background-color: #888;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	font-size: 1.2em;
+	cursor: pointer;
+	width: 50%;
+  }
+  
+  .add-photo-actions .btn:hover {
+	background-color: #555;
+  }
+  #add-photo-btn {
+    position: absolute;
+    bottom: 20px; /* Positionne le bouton en bas */
+    left: 50%;
+    transform: translateX(-50%); /* Centrer horizontalement */
+    background-color: #006400;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+}
+.modal-content-photo {
+    padding: 20px;
+    width: 100%;
+    max-width: 500px; /* Limite la largeur maximale */
+    margin: auto;
+    border-radius: 10px;
+    background-color: #fff;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#add-photo-form {
+    margin-top: 20px; /* Un peu d'espace en haut du formulaire */
+}
+
+#photo-upload {
+    display: none; /* Cache le champ de téléversement d'image */
+}
