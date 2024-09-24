@@ -610,6 +610,9 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 /* Styles de base pour la modale */
+.edit-link:hover {
+    color: #B1663C; /* Change la couleur lors du survol */
+}
 
 .modal {
 	display: none;
