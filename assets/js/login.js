@@ -44,6 +44,7 @@ document.getElementById('login-form').addEventListener('submit', async function(
       const data = await response.json();
     
       // Stocker le token dans le localStorage
+      localStorage.setItem('authToken', data.token);
       localStorage.setItem('token', data.token);
 
       // Redirection vers la page d'accueil

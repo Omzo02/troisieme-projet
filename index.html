@@ -20,13 +20,17 @@
     <script src="./assets/js/main.js" defer></script>
   </head>
   <body>
+    <div class="header-login">
+      <i class="fa-regular fa-pen-to-square edit-mode-icon"></i>
+      <p class="edit-text">Mode édition</p>
+    </div>
     <header>
       <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
       <nav>
         <ul>
-          <li>projets</li>
-          <li>contact</li>
-          <li>login</li>
+          <li><a href="#works-container">projets</a></li>
+          <li><a href="#contact">contact</a></li>
+          <li id="login-link">login</li>
           <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
         </ul>
       </nav>
@@ -169,7 +173,7 @@
       <div class="modal-content">
         <span class="close">&times;</span>
         <!-- Vue Galerie photo -->
-        <div id="gallery-view" class="modal-view">
+        <div id="gallery-view" class="modal-gallery">
           <h2>Galerie Photo</h2>
           <div class="gallery-content">
             <figure>
@@ -259,12 +263,10 @@
               <i class="fa-regular fa-trash-can delete-icon" data-id="11"></i>
             </figure>
           </div>
+          <button id="add-photo-btn" class="btn">Ajouter une photo</button>
+
         </div>
-        <button id="add-photo-btn" class="btn">Ajouter une photo</button>
-
-        <!-- Vue Ajout photo (initialement cachée) -->
-
-        <div id="add-photo-view" class="modal-view" style="display: none">
+        <div id="add-photo-view" class="modal-view">
           <div class="modal-content-photo">
             <span id="back-to-gallery" class="btn back-btn">&larr;</span>
             <h2>Ajout photo</h2>
@@ -272,17 +274,16 @@
               <div class="add-photo-section">
                 <label for="photo-upload" class="photo-label">
                   <i class="fa-regular fa-image"></i>
-                  <button>+ Ajouter photo</button>
+                  <span class="upload-text">+ Ajouter photo</span>
                   <input
                     type="file"
                     id="photo-upload"
                     accept="image/png, image/jpeg"
-                    style="display: none"
+                    
                   />
                   <p>jpg, png : 4mo max</p>
                 </label>
               </div>
-
               <div class="add-photo-section">
                 <label for="photo-title">Titre</label>
                 <input

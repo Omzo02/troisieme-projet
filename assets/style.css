@@ -33,7 +33,7 @@ body {
 	
 	
 }
-ol, ul {
+ol, ul{
 	list-style: none;
 }
 blockquote, q {
@@ -58,10 +58,31 @@ body {
     flex-direction: column;
    
 }
+.header-login p{
+	display: flex;
+	align-items: center;
+	color: white;
+}
+.header-login {
+    background-color: black;
+    height: 3.6875rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+	
+}
+.edit-mode-icon {
+    color: white;
+}
+.fa-regular, .far {
+    font-weight: 400;
+}
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0;
+	margin: 50px 2px;
 	
 }
 section {
@@ -116,6 +137,13 @@ nav ul li:hover {
     color: #B1663C; /* Changez la couleur à l'hover si nécessaire */
 }
 /* Ajoute ce style pour que "login" ait un pointeur */
+ul li a {
+	color: black;
+	text-decoration: none;
+}
+ul li a:hover {
+	color: #B1663C;
+}
 #menu-login {
     cursor: pointer;
 }
@@ -372,6 +400,24 @@ h2{
 	font-size: 30px;
 	color: #1D6154
 }
+.edit-link {
+	font-size: small;
+    text-decoration: none; /* Enlève le soulignement */
+    color: black; /* Applique la couleur noire */
+    font-weight: normal; /* Assure un style de texte normal */
+    display: inline-flex; /* Permet d'aligner l'icône et le texte horizontalement */
+    align-items: center; /* Aligne verticalement le texte et l'icône */
+}
+
+.edit-link i {
+    margin-right: 10px;
+	padding-left: 15px;
+}
+
+/* Changement de couleur au survol */
+.edit-link:hover {
+    color: #555; /* Change la couleur lors du survol */
+}
 nav ul {
 	display: flex;
 	align-items: center;
@@ -563,89 +609,52 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 60px ;
 }
+/* Styles de base pour la modale */
 
-/* Style de la modale de base */
 .modal {
-	display: none; /* Caché par défaut */
-  	position: fixed;
- 	z-index: 1000;
-  	left: 0;
-  	top: 0;
-  	width: 100%;
-  	height: 100%;
-  	background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
-  	justify-content: center; /* Centrer horizontalement */
-  	align-items: center;     /* Centrer verticalement */
-	display: flex; /* Utilisation de Flexbox pour centrer */
-	align-items: center;
-}
-/* Style pour les images dans la modale */
-.modal img {
-	display: flex;
-	padding-bottom: 5px;
-	height: 150px;
-	cursor: pointer;
-	align-items: center;
-	justify-content: space-between;
-	object-fit: cover; /* Maintient les proportions des images */
-}
-
-/* Style pour la galerie dans la modale */
-.gallery-content {
-	display: grid;
-	grid-template-columns: repeat(5, 1fr); /* 5 images par ligne */
-	margin-top: 46px;
-	padding-bottom: 46px;
-	border-bottom: 1px solid #b3b3b3;
-	justify-content: center;
-	position: relative;
-}
-
-.gallery-content figure {
-    position: relative;
-}
-
-
-.modal-content {
-    background-color: #fff;
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+	margin-top: 25px;
+	left: 28%;
+	background-color: #fff;
 	padding: 30px;
 	border: 1px solid #888;
-	width: 50%;
 	width: 600px; /* Limite la taille maximale */
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.141);
 	position: relative;
-}
-.modal-view h2{
-	text-align: center;
-	margin-bottom: 10px;
-}
-.modal-view {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between; /* Espace égal entre les sections */
-	
+	margin-bottom: 30px;
   }
-
-/* Position de l'icône de suppression */
-.delete-icon {
+  .delete-icon {
     position: absolute;
     top: 10px;   /* Ajuste la position verticale */
     right: 10px; /* Ajuste la position horizontale */
     font-size: 18px;
     cursor: pointer;
-    background-color: white; /* Pour une meilleure visibilité */
+    background-color: black; /* Pour une meilleure visibilité */
     padding: 5px;
     height: 17px;
 	width: 17px;
 	z-index: 10;
+	color: white;
 }
-/* Fermer la modale */
-.close {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-}
+  
+  .close {
+	font-size: 24px;
+	position: absolute;
+	top: 10px;
+	right: 20px;
+	cursor: pointer;
+  }
+
 
 .close:hover,
 .close:focus {
@@ -653,7 +662,6 @@ input[type="submit"]{
     text-decoration: none;
     cursor: pointer;
 }
-
 .modal-content button {
     display: block;
     margin: 20px auto;
@@ -663,162 +671,162 @@ input[type="submit"]{
     border: none;
     border-radius: 3.75rem;
     cursor: pointer;
-	
+	margin-top: 40px;
 }
 
-.add-photo-btn:hover {
-    background-color: #008000;
+.modal h2{
+	color: black;
 }
-/* Style du lien "modifier" */
-.edit-link {
-	font-size: small;
-    text-decoration: none; /* Enlève le soulignement */
-    color: black; /* Applique la couleur noire */
-    font-weight: normal; /* Assure un style de texte normal */
-    display: inline-flex; /* Permet d'aligner l'icône et le texte horizontalement */
-    align-items: center; /* Aligne verticalement le texte et l'icône */
-}
-
-.edit-link i {
-    margin-right: 10px;
-	padding-left: 15px;
-}
-
-/* Changement de couleur au survol */
-.edit-link:hover {
-    color: #555; /* Change la couleur lors du survol */
-}
-/* Styles pour la modale */
-.modal-photo {
-	display: none; /* La modale est cachée par défaut */
-	position: fixed;
-	z-index: 1000;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
-  }
-  
   
   h2 {
 	text-align: center;
 	font-size: 1.8em;
 	margin-bottom: 20px;
+	
   }
   
-  .back-btn {
-	font-size: 24px;
-	top: 10px;
-	left: 20px;
-	cursor: pointer;
-  }
-  
-  .add-photo-section {
-	margin-bottom: 20px;
-  }
-  .add-photo-section input{
-	width: 80%;
-  }
-  .add-photo-section label {
-	display: block;
-	font-weight: bold;
-	margin-bottom: 8px;
-	height: 100px;
-  }
-  
-  .photo-label {
+  /* Styles des sections modales */
+  .modal-view {
 	display: flex;
 	flex-direction: column;
+  }
+  .modal img {
+	display: flex;
+	padding-bottom: 5px;
+	height: 150px;
+	cursor: pointer;
 	align-items: center;
-	padding: 20px;
-	border: 2px; /* Border en pointillé */
-	cursor: pointer;
-	background-color: #f9f9f9;
-	border-radius: 10px;
-	transition: border-color 0.3s ease;
-  }
-  .add-photo-section button{
-	display: flex;
-	justify-content: center;
-    border-radius: 3rem;
-    cursor: pointer;
-	margin-top: 7px;
-	background-color: #cbd6dc;
-  }
-  .photo-label i {
-	font-size: 48px;
-	color: #888;
-	display: flex;
-	justify-content: center;
-	margin-top: 0px;
-	cursor: pointer;
-  }
-  
-  .photo-label:hover {
-	border-color: #666;
-  }
-  
-  .add-photo-section p {
-	font-size: x-small;
-	color: #666;
-	text-align: center;
-	margin-top: -7px;
-  }
-  
-  #photo-title,
-  #photo-category {
-	width: 100%;
-	padding: 10px;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	font-size: 1em;
-  }
-  
-  .add-photo-actions {
-	text-align: center;
-  }
-  
-  .add-photo-actions .btn {
-	padding: 12px 20px;
-	background-color: #888;
-	color: #fff;
-	border: none;
-	border-radius: 5px;
-	font-size: 1.2em;
-	cursor: pointer;
-	width: 50%;
-  }
-  
-  .add-photo-actions .btn:hover {
-	background-color: #555;
-  }
-  #add-photo-btn {
-    position: absolute;
-    bottom: 20px; /* Positionne le bouton en bas */
-    left: 50%;
-    transform: translateX(-50%); /* Centrer horizontalement */
-    background-color: #006400;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 50px;
+	justify-content: space-between;
+	object-fit: cover; /* Maintient les proportions des images */
 }
-.modal-content-photo {
-    padding: 20px;
-    width: 100%;
-    max-width: 500px; /* Limite la largeur maximale */
-    margin: auto;
-    border-radius: 10px;
-    background-color: #fff;
+  .gallery-content {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr); /* 5 images par ligne */
+	margin-top: 46px;
+	padding-bottom: 46px;
+	border-bottom: 1px solid #b3b3b3;
+	justify-content: center;
+	position: relative;
+}
+
+
+.gallery-content figure {
     position: relative;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.back-btn {
+	position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: #333;
+  }
+
+  .add-photo-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
 }
 
-#add-photo-form {
-    margin-top: 20px; /* Un peu d'espace en haut du formulaire */
+.photo-label input{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+	display: none;
 }
 
-#photo-upload {
-    display: none; /* Cache le champ de téléversement d'image */
+.add-photo-section input{
+	
+	height: 50px;
+    font-size: 1.2em;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	margin-top: 15px;
+	width: 80%;
+	margin-left: 50px;
+}
+.add-photo-section select {
+	height: 50px;
+    font-size: 1.2em;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	margin-top: 15px;
+	width: 80%;
+	margin-left: 50px;
+}
+
+.upload-text {
+	margin-top: 8px;
+    color: #306685;
+    text-align: center;
+    font-family: Work Sans;
+    font-size: 0.675rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    border-radius: 3.125rem;
+    background: #cbd6dc;
+    width: 12.8125rem;
+    height: 2.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	
+}
+.add-photo-section label{
+	margin-top: 15px;
+	margin-left: 50px;
+}
+
+.photo-label {
+    background-color: #e8f1f6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+	height: 160px;
+	margin-left: 50px;
+}
+
+.photo-label i {
+    font-size: 48px;
+    color: #6c757d;
+    margin-top: 20px;
+	margin-bottom: 5px;
+}
+/* Pour l'ajout du fichier texte sous l'input */
+.add-photo-actions {
+	border-top: 1px solid #ccc; /* Le trait gris */
+	padding-top: 20px; /* Espace entre le trait et le bouton */
+	width: 80%;
+	margin-left: 50px;
+	margin-top: 60px;
+  }
+  
+
+.add-photo-actions .btn {
+    background-color: #a7a7a7;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.add-photo-actions .btn:hover {
+    background-color: #004c00; /* Couleur au survol */
+}
+
+.photo-label span {
+	font-size: 16px; /* Taille du texte pour "+ Ajouter photo" */
+	color: #6c757d;  /* Couleur du texte pour correspondre à la maquette */
+	
+  }
+.photo-label p {
+	margin-top: 15px;
 }

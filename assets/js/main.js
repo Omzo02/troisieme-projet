@@ -1,3 +1,9 @@
+function checkAuthToken() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    window.location.href = 'login.html';
+  }
+}
 const worksContainer = document.getElementById('works-container');
 const filterButtons = document.querySelectorAll('#filter-container button');
 
@@ -58,6 +64,8 @@ const loginLogoutBtn = document.querySelector('nav ul li:nth-child(3)');
 // Vérification du token dans localStorage
 function checkLoginStatus() {
     const token = localStorage.getItem('token'); // Récupérer le token stocké
+    console.log("Token détecté :", token);
+
   
     if (token) {
         // Si le token est présent, l'utilisateur est connecté
@@ -72,6 +80,33 @@ function checkLoginStatus() {
     }
 }
 
+function checkLoginStatus() {
+    const token = localStorage.getItem('token'); // Récupérer le token stocké
+    const modifyButton = document.getElementById('modify-button'); // Change cela en fonction de l'ID réel
+
+    if (token) {
+        // Si le token est présent, l'utilisateur est connecté
+        loginLogoutBtn.textContent = 'logout'; // Afficher "logout"
+        loginLogoutBtn.removeEventListener('click', handleLogin); // Enlever l'événement login
+        loginLogoutBtn.addEventListener('click', handleLogout); // Ajouter l'événement logout
+        
+        // Masquer le bouton "modifier"
+        if (modifyButton) {
+            modifyButton.style.display = 'none';
+        }
+    } else {
+        // Si pas de token, l'utilisateur n'est pas connecté
+        loginLogoutBtn.textContent = 'login'; // Afficher "login"
+        loginLogoutBtn.removeEventListener('click', handleLogout); // Enlever l'événement logout
+        loginLogoutBtn.addEventListener('click', handleLogin); // Ajouter l'événement login
+        
+        // Afficher le bouton "modifier" si nécessaire
+        if (modifyButton) {
+            modifyButton.style.display = 'block'; // ou 'inline' selon le style voulu
+        }
+    }
+}
+
 // Gestion du clic sur "login"
 function handleLogin() {
     window.location.href = 'login.html'; // Rediriger vers la page de connexion
@@ -82,6 +117,9 @@ function handleLogout() {
     localStorage.removeItem('token'); // Supprimer le token
     window.location.reload(); // Recharger la page pour actualiser l'état de connexion
 }
+
+// Appel pour vérifier l'état de connexion dès que la page est chargée
+window.addEventListener('load', checkLoginStatus);
 
 // Sélectionne les éléments nécessaires
 const modal = document.getElementById('modal');
@@ -111,3 +149,16 @@ window.addEventListener('click', (event) => {
     modal.style.display = 'none'; // Cache la modale si on clique en dehors
   }
 });
+
+// Aller à la vue "Ajout photo"
+openAddPhotoBtn.addEventListener('click', () => {
+  galleryView.style.display = 'none'; // Cache la vue Galerie
+  addPhotoView.style.display = 'block'; // Affiche la vue Ajout photo
+});
+
+// Retourner à la vue "Galerie"
+backToGalleryBtn.addEventListener('click', () => {
+  addPhotoView.style.display = 'none'; // Cache la vue Ajout photo
+  galleryView.style.display = 'block'; // Affiche la vue Galerie
+});
+
