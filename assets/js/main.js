@@ -203,38 +203,54 @@ function renderModalWorks(worksToRender) {
   });
 }
 
-// Fonction pour supprimer un travail
 async function deleteWork(id) {
   try {
+    // Récupérer le token d'authentification depuis le localStorage
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("Erreur : Aucun token trouvé. Veuillez vous reconnecter.");
+      window.location.href = "login.html"; // Rediriger vers la page de connexion si aucun token n'est présent
+      return;
+    }
+
+    // Envoi de la requête de suppression avec le token d'authentification
     const response = await fetch(`http://localhost:5678/api/works/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4',
-        'Content-Type': 'application/json'
-      }
+        Authorization: `Bearer ${token}`, // Ajout du token dans l'en-tête
+        "Content-Type": "application/json",
+      },
     });
 
     if (response.ok) {
       // Supprimer l'élément de la modale
-      const modalWorkElement = document.querySelector(`.gallery-content figure[data-id="${id}"]`);
+      const modalWorkElement = document.querySelector(
+        `.gallery-content figure[data-id="${id}"]`
+      );
       if (modalWorkElement) {
         modalWorkElement.remove(); // Supprime l'élément du DOM de la modale
       }
 
       // Supprimer également l'élément dans la galerie principale
-      const mainWorkElement = document.querySelector(`#works-container figure[data-id="${id}"]`);
+      const mainWorkElement = document.querySelector(
+        `#works-container figure[data-id="${id}"]`
+      );
       if (mainWorkElement) {
         mainWorkElement.remove(); // Supprime l'élément du DOM de la galerie principale
       }
 
-      console.log('Travail supprimé avec succès');
+      console.log("Travail supprimé avec succès");
+    } else if (response.status === 401) {
+      console.error("Erreur : Non autorisé. Veuillez vous reconnecter.");
+      window.location.href = "login.html"; // Rediriger vers la page de connexion
     } else {
-      console.error('Erreur lors de la suppression du travail :', response.statusText);
+      console.error(
+        "Erreur lors de la suppression du travail :",
+        response.statusText
+      );
     }
   } catch (error) {
-    console.error('Erreur lors de la suppression :', error);
+    console.error("Erreur lors de la suppression :", error);
   }
 }
-
-
-//
