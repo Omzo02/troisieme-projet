@@ -205,6 +205,12 @@ function renderModalWorks(worksToRender) {
 
 async function deleteWork(id) {
   try {
+    // Demander la confirmation de l'utilisateur avant de supprimer
+    const confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce travail ?");
+    if (!confirmation) {
+      console.log("Suppression annulée.");
+      return; // Si l'utilisateur annule, sortir de la fonction
+    }
     // Récupérer le token d'authentification depuis le localStorage
     const token = localStorage.getItem("token");
 
