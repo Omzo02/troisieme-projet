@@ -554,14 +554,28 @@ footer  nav li {
 	color: white;
 	background-color: #1d6154;
   }
+
+  #portfolio h2 {
+    display: flex; /* Utilise flexbox pour aligner les éléments sur la même ligne */
+    align-items: center; /* Centre verticalement les éléments */
+    justify-content: center; /* Centre horizontalement le contenu */
+    margin: 0; /* Enlève la marge par défaut du h2 */
+}
+
+.edit-link {
+    margin-left: 20px; /* Ajuste cette valeur pour créer un espacement en centimètres */
+    text-decoration: none; /* Enlève le soulignement du lien */
+    color: #000; /* Ajuste la couleur du texte selon tes préférences */
+}
+
+
  
 .gallery {
-	width: 100%;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Trois colonnes */
+    gap: 20px; /* Espace entre les éléments */
 }
+
 
 .gallery img {
 	width: 100%;
@@ -610,7 +624,7 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 /* Styles de base pour la modale */
-.edit-link:hover {
+#open-modal:hover {
     color: #B1663C; /* Change la couleur lors du survol */
 }
 

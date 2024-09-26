@@ -38,23 +38,60 @@ function applyFilter(category, works) {
 
 // Fonction pour afficher les travaux
 function renderWorks(worksToRender) {
+  // Vérifier si le token est présent
+  const token = localStorage.getItem('token');
+  if (!token) {
+      console.log('Aucun token trouvé. Impossible d\'afficher les travaux.');
+      return; // Sortir de la fonction si aucun token n'est présent
+  }
+
   // Vider le conteneur des travaux
-  worksContainer.innerHTML = ''; 
+  worksContainer.innerHTML = '';
 
   worksToRender.forEach(work => {
-    const workElement = document.createElement('figure');
-    const imgElement = document.createElement('img');
-    const captionElement = document.createElement('figcaption');
+      const workElement = document.createElement('figure');
+      const imgElement = document.createElement('img');
+      const captionElement = document.createElement('figcaption');
 
-    imgElement.src = work.imageUrl;
-    imgElement.alt = work.title;
-    captionElement.textContent = work.title;
+      imgElement.src = work.imageUrl;
+      imgElement.alt = work.title;
+      captionElement.textContent = work.title;
 
-    workElement.appendChild(imgElement);
-    workElement.appendChild(captionElement);
-    worksContainer.appendChild(workElement);
+      workElement.appendChild(imgElement);
+      workElement.appendChild(captionElement);
+      worksContainer.appendChild(workElement);
   });
 }
+
+// Exemple d'appel de la fonction après la récupération des travaux
+async function fetchAndRenderWorks() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+      console.log('Aucun token trouvé. Impossible de récupérer les travaux.');
+      return; // Sortir de la fonction si aucun token n'est présent
+  }
+
+  try {
+      const response = await fetch('http://localhost:5678/api/works', {
+          headers: {
+              'Authorization': `Bearer ${token}` // Ajoute le token à l'en-tête de la requête
+          }
+      });
+
+      if (!response.ok) {
+          throw new Error('Erreur lors de la récupération des travaux');
+      }
+
+      const works = await response.json();
+      renderWorks(works); // Appelle la fonction pour afficher les travaux
+  } catch (error) {
+      console.error(error);
+  }
+}
+
+// Appelle la fonction pour récupérer et afficher les travaux lorsque le script est chargé
+fetchAndRenderWorks();
+
 
 // Charger les travaux au chargement de la page
 window.addEventListener('load', loadWorks);
@@ -84,7 +121,7 @@ function checkLoginStatus() {
 
 function checkLoginStatus() {
     const token = localStorage.getItem('token'); // Récupérer le token stocké
-    const modifyButton = document.getElementById('modify-button'); // Change cela en fonction de l'ID réel
+    const modifyButton = document.getElementById('open-modal'); // Change cela en fonction de l'ID réel
 
     if (token) {
         // Si le token est présent, l'utilisateur est connecté
@@ -94,7 +131,7 @@ function checkLoginStatus() {
         
         // Masquer le bouton "modifier"
         if (modifyButton) {
-            modifyButton.style.display = 'none';
+            modifyButton.style.display = 'block';
         }
     } else {
         // Si pas de token, l'utilisateur n'est pas connecté
@@ -104,7 +141,7 @@ function checkLoginStatus() {
         
         // Afficher le bouton "modifier" si nécessaire
         if (modifyButton) {
-            modifyButton.style.display = 'block'; // ou 'inline' selon le style voulu
+            modifyButton.style.display = 'none'; // ou 'inline' selon le style voulu
         }
     }
 }
