@@ -129,7 +129,7 @@ function checkLoginStatus() {
         loginLogoutBtn.removeEventListener('click', handleLogin); // Enlever l'événement login
         loginLogoutBtn.addEventListener('click', handleLogout); // Ajouter l'événement logout
         
-        // Masquer le bouton "modifier"
+        // Affiche le bouton "modifier"
         if (modifyButton) {
             modifyButton.style.display = 'block';
         }
@@ -139,9 +139,9 @@ function checkLoginStatus() {
         loginLogoutBtn.removeEventListener('click', handleLogout); // Enlever l'événement logout
         loginLogoutBtn.addEventListener('click', handleLogin); // Ajouter l'événement login
         
-        // Afficher le bouton "modifier" si nécessaire
+        // Masque le bouton "modifier" si nécessaire
         if (modifyButton) {
-            modifyButton.style.display = 'none'; // ou 'inline' selon le style voulu
+            modifyButton.style.display = 'none'; 
         }
     }
 }
