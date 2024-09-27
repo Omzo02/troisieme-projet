@@ -1,3 +1,16 @@
+// Récupération des éléments
+const projetsLink = document.getElementById('projets');
+const contactLink = document.getElementById('contact');
+
+// Gestion des événements de clic
+projetsLink.addEventListener('click', () => {
+    window.location.href = 'index.html#portfolio';
+});
+
+contactLink.addEventListener('click', () => {
+    window.location.href = 'index.html#contact';
+});
+
 // Validation email
 function validateEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

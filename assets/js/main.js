@@ -40,13 +40,7 @@ function applyFilter(category, works) {
 
 // Fonction pour afficher les travaux
 function renderWorks(worksToRender) {
-  // Vérifier si le token est présent
-  const token = localStorage.getItem('token');
-  if (!token) {
-      console.log('Aucun token trouvé. Impossible d\'afficher les travaux.');
-      return; // Sortir de la fonction si aucun token n'est présent
-  }
-
+  
   // Vider le conteneur des travaux
   worksContainer.innerHTML = '';
 
@@ -64,36 +58,6 @@ function renderWorks(worksToRender) {
       worksContainer.appendChild(workElement);
   });
 }
-
-// Exemple d'appel de la fonction après la récupération des travaux
-async function fetchAndRenderWorks() {
-  const token = localStorage.getItem('token');
-  if (!token) {
-      console.log('Aucun token trouvé. Impossible de récupérer les travaux.');
-      return; // Sortir de la fonction si aucun token n'est présent
-  }
-
-  try {
-      const response = await fetch('http://localhost:5678/api/works', {
-          headers: {
-              'Authorization': `Bearer ${token}` // Ajoute le token à l'en-tête de la requête
-          }
-      });
-
-      if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des travaux');
-      }
-
-      const works = await response.json();
-      renderWorks(works); // Appelle la fonction pour afficher les travaux
-  } catch (error) {
-      console.error(error);
-  }
-}
-
-// Appelle la fonction pour récupérer et afficher les travaux lorsque le script est chargé
-fetchAndRenderWorks();
-
 
 // Charger les travaux au chargement de la page
 window.addEventListener('load', loadWorks);
@@ -300,19 +264,22 @@ async function deleteWork(id) {
     console.error("Erreur lors de la suppression :", error);
   }
 }
-// Fonction pour vérifier le token et afficher ou masquer la div header-login
+// Fonction pour vérifier le token d'authentification
 function checkAuthToken() {
   const token = localStorage.getItem('token');
   const headerLoginDiv = document.querySelector('.header-login');
-  
+
+  // Afficher ou masquer la div en fonction de la présence du token
   if (token) {
-    // Si le token est présent, afficher la div
-    headerLoginDiv.style.display = 'flex'; // Affiche la div (la mise en page reste flex)
+    headerLoginDiv.style.display = 'flex'; // Affiche la div si connecté
   } else {
-    // Si pas de token, masquer la div
-    headerLoginDiv.style.display = 'none'; // Cache la div
+    headerLoginDiv.style.display = 'none'; // Cache la div si déconnecté
   }
 }
 
-// Appel pour vérifier l'état de connexion et afficher/masquer la div
-window.addEventListener('load', checkAuthToken);
+// Charger les travaux au chargement de la page
+window.addEventListener('load', async () => {
+  checkAuthToken(); // Vérifier l'état de connexion
+  await loadWorks(); // Charger les travaux
+});
+
