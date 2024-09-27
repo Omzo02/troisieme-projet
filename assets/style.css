@@ -66,19 +66,26 @@ body {
 .header-login {
     background-color: black;
     height: 3.6875rem;
-    flex-shrink: 0;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; /* Centre les éléments horizontalement */
     width: 100%;
-	
 }
-.edit-mode-icon {
+
+.header-login i, .header-login p {
+    display: flex; /* Assure que les éléments enfants soient flexibles aussi */
+    align-items: center; /* Centre verticalement les icônes et le texte */
     color: white;
 }
-.fa-regular, .far {
+
+.edit-mode-icon {
+    margin-right: 10px; /* Espace entre l'icône et le texte */
+}
+
+.fa-regular, .fa {
     font-weight: 400;
 }
+
 header {
 	display: flex;
 	justify-content: space-between;
@@ -797,6 +804,12 @@ input[type="submit"]{
 .add-photo-section label{
 	margin-top: 15px;
 	margin-left: 50px;
+}
+.add-photo-section p{
+	display: flex; /* Utilise flexbox pour aligner les éléments sur la même ligne */
+    align-items: center; /* Centre verticalement les éléments */
+    justify-content: center; /* Centre horizontalement le contenu */
+    margin-top: -30px;
 }
 
 .photo-label {

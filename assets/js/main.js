@@ -7,6 +7,8 @@ function checkAuthToken() {
 const worksContainer = document.getElementById('works-container');
 const filterButtons = document.querySelectorAll('#filter-container button');
 
+
+
 // Fonction pour récupérer et afficher les travaux
 async function loadWorks() {
   try {
@@ -170,6 +172,7 @@ const galleryView = document.getElementById('gallery-view'); // Vue de la galeri
 const addPhotoView = document.getElementById('add-photo-view'); // Vue ajout de photo
 const modalWorksContainer = document.querySelector('.gallery-content'); // Conteneur des travaux dans la modale
 
+
 // Ouvrir la modale (Vue Galerie)
 openModalBtn.addEventListener('click', async (event) => {
   event.preventDefault(); 
@@ -297,3 +300,19 @@ async function deleteWork(id) {
     console.error("Erreur lors de la suppression :", error);
   }
 }
+// Fonction pour vérifier le token et afficher ou masquer la div header-login
+function checkAuthToken() {
+  const token = localStorage.getItem('token');
+  const headerLoginDiv = document.querySelector('.header-login');
+  
+  if (token) {
+    // Si le token est présent, afficher la div
+    headerLoginDiv.style.display = 'flex'; // Affiche la div (la mise en page reste flex)
+  } else {
+    // Si pas de token, masquer la div
+    headerLoginDiv.style.display = 'none'; // Cache la div
+  }
+}
+
+// Appel pour vérifier l'état de connexion et afficher/masquer la div
+window.addEventListener('load', checkAuthToken);
