@@ -235,7 +235,7 @@ photoInput.addEventListener('change', (event) => {
 
 // Validation du formulaire : active le bouton si tous les champs sont remplis
 function checkFormValidity() {
-  if (photoInput.files.length > 0 && titleInput.value.trim() && categoryInput.value) {
+  if (photoInput.files.length > 0 && titleInput.value.trim() && categoryInput.value.trim()) {
     submitBtn.disabled = false;
     submitBtn.style.backgroundColor = 'green'; // Change la couleur du bouton
   } else {
@@ -245,12 +245,27 @@ function checkFormValidity() {
 }
 
 // Vérifie à chaque saisie si tous les champs sont remplis
-titleInput.addEventListener('input', checkFormValidity);
-categoryInput.addEventListener('change', checkFormValidity);
+photoInput.addEventListener("change", () => checkFormValidity(photoInput, categorySelect, titleInput));
+titleInput.addEventListener('input', () => checkFormValidity(photoInput, categorySelect, titleInput));
+categoryInput.addEventListener('change', () => checkFormValidity(photoInput, categorySelect, titleInput));
 
 // Gestion de la soumission du formulaire
 form.addEventListener('submit', async (event) => {
   event.preventDefault(); // Empêche le rechargement de la page
+
+  // Vérification des champs avant d'envoyer
+  if (photoInput.files.length=== 0) {
+    alert("Veuillez télécharger une photo.");
+    return; // Arrête l'exécution si le champ photo est vide
+  }
+  if (titleInput.value.trim() === '') {
+    alert("Veuillez remplir le titre.");
+    return; // Arrête l'exécution si le champ titre est vide
+  }
+  if (categoryInput.value.trim() === '') {
+    alert("Veuillez sélectionner une catégorie.");
+    return; // Arrête l'exécution si le champ catégorie est vide
+  }
 
   // Créer un objet FormData pour l'envoi
   const formData = new FormData();
