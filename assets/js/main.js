@@ -301,11 +301,11 @@ form.addEventListener('submit', async (event) => {
 });
 
 // Gestion de l'affichage des filtres en mode édition
-//const filterContainer = document.getElementById('filter-container');
-//const token = localStorage.getItem('token'); // Vérifie si le token est présent
+const filterContainer = document.getElementById('filter-container');
+const token = localStorage.getItem('token'); // Vérifie si le token est présent
 
-//if (token) {
-  // Mode édition activé, cacher les boutons de filtre
-  //filterContainer.style.display = 'none';
-//}
+if (token) {
+  //Mode édition activé, cacher les boutons de filtre
+  filterContainer.style.display = 'none';
+}
 
