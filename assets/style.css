@@ -593,6 +593,7 @@ footer  nav li {
     grid-column-gap: 20px;
     grid-row-gap: 20px;
     margin: auto;
+	margin-top: 40px;
 }
 
 .gallery img {
