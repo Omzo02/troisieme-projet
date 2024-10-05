@@ -51,7 +51,7 @@ async function loadWorks() {
     // Gestion des filtres
     const filterButtons = document.querySelectorAll('#filter-container button');
     filterButtons.forEach(button => {
-      button.addEventListener('click', function() {
+      button.addEventListener('click', function () {
         filterButtons.forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');
         applyFilter(button.textContent, works);
@@ -72,23 +72,33 @@ function applyFilter(category, works) {
   }
 }
 
+function createWorkInDom(work) {
+  const worksContainer = document.getElementById('works-container');
+  const workElement = document.createElement('figure');
+  //#SL
+  //#AJOUT DE L'ID en data id  (autres syntaxe setAttribute('data-id', work.id))
+  workElement.dataset.id = work.id;
+  const imgElement = document.createElement('img');
+  const captionElement = document.createElement('figcaption');
+
+  imgElement.src = work.imageUrl;
+  imgElement.alt = work.title;
+  captionElement.textContent = work.title;
+
+  workElement.appendChild(imgElement);
+  workElement.appendChild(captionElement);
+  worksContainer.appendChild(workElement);
+}
+
+
+
 // Fonction pour afficher les travaux
 function renderWorks(worksToRender) {
   const worksContainer = document.getElementById('works-container');
   worksContainer.innerHTML = ''; // Vider le conteneur
 
   worksToRender.forEach(work => {
-    const workElement = document.createElement('figure');
-    const imgElement = document.createElement('img');
-    const captionElement = document.createElement('figcaption');
-
-    imgElement.src = work.imageUrl;
-    imgElement.alt = work.title;
-    captionElement.textContent = work.title;
-
-    workElement.appendChild(imgElement);
-    workElement.appendChild(captionElement);
-    worksContainer.appendChild(workElement);
+    createWorkInDom(work);
   });
 }
 
@@ -146,26 +156,39 @@ backToGalleryBtn.addEventListener('click', () => {
   galleryView.style.display = 'block'; // Affiche la vue Galerie
 });
 
+  /*#SL*/
+function createWorkInModal(work) {
+  const modalWorksContainer = document.querySelector('.gallery-content');
+  const workElement = document.createElement('figure');
+  const imgElement = document.createElement('img');
+  const deleteIcon = document.createElement('i');
+
+  imgElement.src = work.imageUrl;
+  imgElement.alt = work.title;
+
+  deleteIcon.className = 'fa-regular fa-trash-can delete-icon'; // Icone pour supprimer
+  // deleteIcon.setAttribute('data-id', work.id); // Associe l'ID du travail
+  deleteIcon.addEventListener('click', () => {
+    workElement.remove();
+    deleteWork(work.id);
+  }
+
+  );
+
+  workElement.appendChild(imgElement);
+  workElement.appendChild(deleteIcon);
+  modalWorksContainer.appendChild(workElement);
+}
+
+
 // Fonction pour charger les travaux dans la modale
 function renderModalWorks(worksToRender) {
   const modalWorksContainer = document.querySelector('.gallery-content');
   modalWorksContainer.innerHTML = ''; // Vider le conteneur de la modale
 
+  /*#SL*/
   worksToRender.forEach(work => {
-    const workElement = document.createElement('figure');
-    const imgElement = document.createElement('img');
-    const deleteIcon = document.createElement('i');
-
-    imgElement.src = work.imageUrl;
-    imgElement.alt = work.title;
-
-    deleteIcon.className = 'fa-regular fa-trash-can delete-icon'; // Icone pour supprimer
-    deleteIcon.setAttribute('data-id', work.id); // Associe l'ID du travail
-    deleteIcon.addEventListener('click', () => deleteWork(work.id));
-
-    workElement.appendChild(imgElement);
-    workElement.appendChild(deleteIcon);
-    modalWorksContainer.appendChild(workElement);
+    createWorkInModal(work);
   });
 }
 
@@ -191,7 +214,8 @@ async function deleteWork(id) {
     });
 
     if (response.ok) {
-      document.querySelector(`.gallery-content figure[data-id="${id}"]`).remove();
+      // #SL document.querySelector(`.gallery-content figure[data-id="${id}"]`).remove();
+      // #SL voir  //#AJOUT DE L'ID 
       document.querySelector(`#works-container figure[data-id="${id}"]`).remove();
       console.log("Travail supprimé avec succès");
     } else if (response.status === 401) {
@@ -222,7 +246,7 @@ photoInput.addEventListener('change', (event) => {
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       imageLabel.style.backgroundImage = `url(${e.target.result})`;
       imageLabel.style.backgroundSize = 'contain';
       imageLabel.style.backgroundRepeat = 'no-repeat';
@@ -234,27 +258,35 @@ photoInput.addEventListener('change', (event) => {
 });
 
 // Validation du formulaire : active le bouton si tous les champs sont remplis
+// Fonction pour vérifier si tous les champs sont remplis
 function checkFormValidity() {
-  if (photoInput.files.length > 0 && titleInput.value.trim() && categoryInput.value.trim()) {
-    submitBtn.disabled = false;
-    submitBtn.style.backgroundColor = 'green'; // Change la couleur du bouton
+  // Vérification stricte des champs un par un
+  const isPhotoUploaded = photoInput.files.length > 0; // Vérifie si une image a été ajoutée
+  const isTitleFilled = titleInput.value.trim() !== ''; // Vérifie si le titre est rempli
+  const isCategorySelected = categoryInput.value !== ''; // Vérifie si une catégorie est sélectionnée
+
+  // Si tous les champs sont valides, on active le bouton et on change la couleur
+  if (isPhotoUploaded && isTitleFilled && isCategorySelected) {
+    submitBtn.disabled = false; // Activer le bouton de soumission
+    submitBtn.style.backgroundColor = 'green'; // Changer la couleur en vert
   } else {
-    submitBtn.disabled = true;
-    submitBtn.style.backgroundColor = ''; // Couleur par défaut
+    // Sinon, désactiver le bouton et réinitialiser la couleur
+    submitBtn.disabled = true; // Désactiver le bouton
+    submitBtn.style.backgroundColor = ''; // Garder la couleur par défaut
   }
 }
 
-// Vérifie à chaque saisie si tous les champs sont remplis
-photoInput.addEventListener("change", () => checkFormValidity(photoInput, categorySelect, titleInput));
-titleInput.addEventListener('input', () => checkFormValidity(photoInput, categorySelect, titleInput));
-categoryInput.addEventListener('change', () => checkFormValidity(photoInput, categorySelect, titleInput));
+// Ajouter des événements à chaque champ pour vérifier la validité en temps réel
+photoInput.addEventListener('change', checkFormValidity); // Lorsqu'une photo est ajoutée
+titleInput.addEventListener('input', checkFormValidity);  // Lorsqu'un titre est tapé
+categoryInput.addEventListener('change', checkFormValidity); // Lorsqu'une catégorie est sélectionnée
 
 // Gestion de la soumission du formulaire
 form.addEventListener('submit', async (event) => {
   event.preventDefault(); // Empêche le rechargement de la page
 
   // Vérification des champs avant d'envoyer
-  if (photoInput.files.length=== 0) {
+  if (photoInput.files.length === 0) {
     alert("Veuillez télécharger une photo.");
     return; // Arrête l'exécution si le champ photo est vide
   }
@@ -290,7 +322,17 @@ form.addEventListener('submit', async (event) => {
       submitBtn.style.backgroundColor = ''; // Réinitialise la couleur du bouton
       imageLabel.style.backgroundImage = ''; // Réinitialise l'image
       imageLabel.innerHTML = '<i class="fa-regular fa-image"></i><span class="upload-text">+ Ajouter photo</span>'; // Réinitialise le texte
-      loadWorks(); // Recharge les travaux après ajout
+      // loadWorks(); // Recharge les travaux après ajout
+      // #SL il est demandé d'ajouter dynamiquement et non pas de refraichir
+      work = await response.json(); // récupération du work retourné par le backend
+      
+      
+      // fonction de création d'un élément dans le DOM de la page d'accueil en fonction d'un élément "work"
+      createWorkInDom(work);
+      
+      // fonction de création d'un élément dans le DOM DE LA MODALE en fonction d'un élément "work"
+      createWorkInModal(work);
+
     } else {
       alert('Une erreur est survenue lors de l\'envoi.');
     }
@@ -308,4 +350,3 @@ if (token) {
   //Mode édition activé, cacher les boutons de filtre
   filterContainer.style.display = 'none';
 }
-
