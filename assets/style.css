@@ -891,3 +891,24 @@ input[type="submit"]{
 .photo-label p {
 	margin-top: 15px;
 }
+.modal-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+}
+
+.ok-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.ok-button:hover {
+  background-color: #0056b3;
+}

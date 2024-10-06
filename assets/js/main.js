@@ -1,9 +1,7 @@
 // Vérification du token d'authentification
 function checkAuthToken() {
   const token = localStorage.getItem('token');
-  if (!token) {
-    window.location.href = 'login.html'; // Redirige vers login si pas de token
-  }
+  return !!token; // Retourne true si un token existe, false sinon
 }
 
 // Sélection des éléments nécessaires pour le login/logout
@@ -16,6 +14,8 @@ function checkLoginStatus() {
   const token = localStorage.getItem('token'); // Récupérer le token
 
   if (token) {
+    const filterContainer = document.getElementById('filter-container');
+    filterContainer.style.display = 'none';
     loginLogoutBtn.textContent = 'logout';
     loginLogoutBtn.removeEventListener('click', handleLogin);
     loginLogoutBtn.addEventListener('click', handleLogout);
@@ -72,11 +72,10 @@ function applyFilter(category, works) {
   }
 }
 
+// Fonction pour créer un travail dans le DOM
 function createWorkInDom(work) {
   const worksContainer = document.getElementById('works-container');
   const workElement = document.createElement('figure');
-  //#SL
-  //#AJOUT DE L'ID en data id  (autres syntaxe setAttribute('data-id', work.id))
   workElement.dataset.id = work.id;
   const imgElement = document.createElement('img');
   const captionElement = document.createElement('figcaption');
@@ -89,8 +88,6 @@ function createWorkInDom(work) {
   workElement.appendChild(captionElement);
   worksContainer.appendChild(workElement);
 }
-
-
 
 // Fonction pour afficher les travaux
 function renderWorks(worksToRender) {
@@ -113,52 +110,51 @@ async function loadModalWorks() {
   }
 }
 
-// Sélectionne les éléments nécessaires
+// Gestion modale
 const modal = document.getElementById('modal');
-const openModalBtn = document.getElementById('open-modal'); // Bouton pour ouvrir la modale
-const closeModalBtn = document.querySelector('.close'); // Bouton "X" de fermeture
-const openAddPhotoBtn = document.getElementById('add-photo-btn'); // Bouton pour passer à l'ajout photo
-const backToGalleryBtn = document.getElementById('back-to-gallery'); // Bouton retour
-const galleryView = document.getElementById('gallery-view'); // Vue de la galerie
-const addPhotoView = document.getElementById('add-photo-view'); // Vue ajout de photo
-const modalWorksContainer = document.querySelector('.gallery-content'); // Conteneur des travaux dans la modale
+const openModalBtn = document.getElementById('open-modal');
+const closeModalBtn = document.querySelector('.close');
+const openAddPhotoBtn = document.getElementById('add-photo-btn');
+const backToGalleryBtn = document.getElementById('back-to-gallery');
+const galleryView = document.getElementById('gallery-view');
+const addPhotoView = document.getElementById('add-photo-view');
+const modalWorksContainer = document.querySelector('.gallery-content');
 
 // Ouvrir la modale (Vue Galerie)
 openModalBtn.addEventListener('click', async (event) => {
   event.preventDefault();
-  modal.style.display = 'flex'; // Afficher la modale centrée grâce à flexbox
-  galleryView.style.display = 'block'; // Affiche la vue Galerie
-  addPhotoView.style.display = 'none'; // Cache la vue d'ajout au départ
+  modal.style.display = 'flex';
+  galleryView.style.display = 'block';
+  addPhotoView.style.display = 'none';
   await loadModalWorks(); // Charger les travaux dans la modale
 });
 
 // Fermer la modale
 closeModalBtn.addEventListener('click', () => {
-  modal.style.display = 'none'; // Cache la modale
+  modal.style.display = 'none';
 });
 
 // Fermer la modale si on clique en dehors du contenu
 window.addEventListener('click', (event) => {
   if (event.target === modal) {
-    modal.style.display = 'none'; // Cache la modale si on clique en dehors
+    modal.style.display = 'none';
   }
 });
 
 // Aller à la vue "Ajout photo"
 openAddPhotoBtn.addEventListener('click', () => {
-  galleryView.style.display = 'none'; // Cache la vue Galerie
-  addPhotoView.style.display = 'block'; // Affiche la vue Ajout photo
+  galleryView.style.display = 'none';
+  addPhotoView.style.display = 'block';
 });
 
 // Retourner à la vue "Galerie"
 backToGalleryBtn.addEventListener('click', () => {
-  addPhotoView.style.display = 'none'; // Cache la vue Ajout photo
-  galleryView.style.display = 'block'; // Affiche la vue Galerie
+  addPhotoView.style.display = 'none';
+  galleryView.style.display = 'block';
 });
 
-  /*#SL*/
+// Fonction pour créer un travail dans la modale
 function createWorkInModal(work) {
-  const modalWorksContainer = document.querySelector('.gallery-content');
   const workElement = document.createElement('figure');
   const imgElement = document.createElement('img');
   const deleteIcon = document.createElement('i');
@@ -166,37 +162,31 @@ function createWorkInModal(work) {
   imgElement.src = work.imageUrl;
   imgElement.alt = work.title;
 
-  deleteIcon.className = 'fa-regular fa-trash-can delete-icon'; // Icone pour supprimer
-  // deleteIcon.setAttribute('data-id', work.id); // Associe l'ID du travail
+  deleteIcon.className = 'fa-regular fa-trash-can delete-icon';
   deleteIcon.addEventListener('click', () => {
     workElement.remove();
     deleteWork(work.id);
-  }
-
-  );
+  });
 
   workElement.appendChild(imgElement);
   workElement.appendChild(deleteIcon);
   modalWorksContainer.appendChild(workElement);
 }
 
-
 // Fonction pour charger les travaux dans la modale
 function renderModalWorks(worksToRender) {
-  const modalWorksContainer = document.querySelector('.gallery-content');
-  modalWorksContainer.innerHTML = ''; // Vider le conteneur de la modale
+  modalWorksContainer.innerHTML = '';
 
-  /*#SL*/
   worksToRender.forEach(work => {
     createWorkInModal(work);
   });
 }
 
-// Gestion suppressions images
+// Gestion suppression d'images
 async function deleteWork(id) {
   try {
     const confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce travail ?");
-    if (!confirmation) return; // Si l'utilisateur annule
+    if (!confirmation) return;
 
     const token = localStorage.getItem("token");
     if (!token) {
@@ -214,8 +204,6 @@ async function deleteWork(id) {
     });
 
     if (response.ok) {
-      // #SL document.querySelector(`.gallery-content figure[data-id="${id}"]`).remove();
-      // #SL voir  //#AJOUT DE L'ID 
       document.querySelector(`#works-container figure[data-id="${id}"]`).remove();
       console.log("Travail supprimé avec succès");
     } else if (response.status === 401) {
@@ -228,12 +216,7 @@ async function deleteWork(id) {
   }
 }
 
-// Événements de chargement de la page
-window.addEventListener('load', async () => {
-  checkLoginStatus(); // Vérifier l'état de connexion
-  await loadWorks(); // Charger les travaux
-});
-// Gestion ajout images
+// Gestion du formulaire d'ajout de photos
 const form = document.getElementById('add-photo-form');
 const photoInput = document.getElementById('photo-upload');
 const titleInput = document.getElementById('photo-title');
@@ -241,7 +224,23 @@ const categoryInput = document.getElementById('photo-category');
 const submitBtn = form.querySelector('.btn');
 const imageLabel = form.querySelector('.photo-label');
 
-// Prévisualisation de l'image
+
+// Fonction pour vérifier la validité du formulaire
+function checkFormValidity() {
+  const isPhotoUploaded = photoInput.files.length > 0; // Vérifie si une photo est téléchargée
+  const isTitleFilled = titleInput.value.trim() !== ''; // Vérifie si le titre est renseigné
+  const isCategorySelected = categoryInput.value !== ''; // Vérifie si une catégorie est sélectionnée
+
+  // Si tous les champs sont valides, le bouton est activé, sinon désactivé
+  if (isPhotoUploaded && isTitleFilled && isCategorySelected) {
+    submitBtn.disabled = false;
+    submitBtn.style.backgroundColor = 'green';
+  } else {
+    submitBtn.disabled = true;
+    submitBtn.style.backgroundColor = '';
+  }
+}
+
 photoInput.addEventListener('change', (event) => {
   const file = event.target.files[0];
   if (file) {
@@ -251,88 +250,46 @@ photoInput.addEventListener('change', (event) => {
       imageLabel.style.backgroundSize = 'contain';
       imageLabel.style.backgroundRepeat = 'no-repeat';
       imageLabel.style.backgroundPosition = 'center';
-      submitBtn.style.backgroundColor = 'green'; // Change la couleur du bouton en vert
-    }
+    };
     reader.readAsDataURL(file);
   }
+  checkFormValidity(); // Vérifie la validité après avoir téléchargé une photo
 });
 
-// Validation du formulaire : active le bouton si tous les champs sont remplis
-// Fonction pour vérifier si tous les champs sont remplis
-function checkFormValidity() {
-  // Vérification stricte des champs un par un
-  const isPhotoUploaded = photoInput.files.length > 0; // Vérifie si une image a été ajoutée
-  const isTitleFilled = titleInput.value.trim() !== ''; // Vérifie si le titre est rempli
-  const isCategorySelected = categoryInput.value !== ''; // Vérifie si une catégorie est sélectionnée
 
-  // Si tous les champs sont valides, on active le bouton et on change la couleur
-  if (isPhotoUploaded && isTitleFilled && isCategorySelected) {
-    submitBtn.disabled = false; // Activer le bouton de soumission
-    submitBtn.style.backgroundColor = 'green'; // Changer la couleur en vert
-  } else {
-    // Sinon, désactiver le bouton et réinitialiser la couleur
-    submitBtn.disabled = true; // Désactiver le bouton
-    submitBtn.style.backgroundColor = ''; // Garder la couleur par défaut
-  }
-}
-
-// Ajouter des événements à chaque champ pour vérifier la validité en temps réel
-photoInput.addEventListener('change', checkFormValidity); // Lorsqu'une photo est ajoutée
-titleInput.addEventListener('input', checkFormValidity);  // Lorsqu'un titre est tapé
-categoryInput.addEventListener('change', checkFormValidity); // Lorsqu'une catégorie est sélectionnée
+// Ajout des événements pour valider en temps réel
+photoInput.addEventListener('change', checkFormValidity);
+titleInput.addEventListener('input', checkFormValidity);
+categoryInput.addEventListener('change', checkFormValidity);
 
 // Gestion de la soumission du formulaire
 form.addEventListener('submit', async (event) => {
-  event.preventDefault(); // Empêche le rechargement de la page
+  event.preventDefault();
 
-  // Vérification des champs avant d'envoyer
-  if (photoInput.files.length === 0) {
-    alert("Veuillez télécharger une photo.");
-    return; // Arrête l'exécution si le champ photo est vide
-  }
-  if (titleInput.value.trim() === '') {
-    alert("Veuillez remplir le titre.");
-    return; // Arrête l'exécution si le champ titre est vide
-  }
-  if (categoryInput.value.trim() === '') {
-    alert("Veuillez sélectionner une catégorie.");
-    return; // Arrête l'exécution si le champ catégorie est vide
-  }
-
-  // Créer un objet FormData pour l'envoi
   const formData = new FormData();
   formData.append('image', photoInput.files[0]);
   formData.append('title', titleInput.value);
   formData.append('category', categoryInput.value);
 
   try {
-    // Envoi de la requête à l'API
     const response = await fetch('http://localhost:5678/api/works', {
       method: 'POST',
       body: formData,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}` // Assure que le token est envoyé
-      }
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
     });
 
     if (response.ok) {
       alert('Votre projet a été ajouté avec succès.');
-      form.reset(); // Réinitialise le formulaire
-      submitBtn.disabled = true; // Désactive le bouton après soumission
-      submitBtn.style.backgroundColor = ''; // Réinitialise la couleur du bouton
-      imageLabel.style.backgroundImage = ''; // Réinitialise l'image
-      imageLabel.innerHTML = '<i class="fa-regular fa-image"></i><span class="upload-text">+ Ajouter photo</span>'; // Réinitialise le texte
-      // loadWorks(); // Recharge les travaux après ajout
-      // #SL il est demandé d'ajouter dynamiquement et non pas de refraichir
-      work = await response.json(); // récupération du work retourné par le backend
-      
-      
-      // fonction de création d'un élément dans le DOM de la page d'accueil en fonction d'un élément "work"
+      form.reset();
+      submitBtn.disabled = true;
+      submitBtn.style.backgroundColor = '';
+      imageLabel.style.backgroundImage = '';
+      imageLabel.innerHTML = '<i class="fa-regular fa-image"></i><span class="upload-text">+ Ajouter photo</span>';
+      const work = await response.json();
       createWorkInDom(work);
-      
-      // fonction de création d'un élément dans le DOM DE LA MODALE en fonction d'un élément "work"
       createWorkInModal(work);
-
     } else {
       alert('Une erreur est survenue lors de l\'envoi.');
     }
@@ -342,11 +299,7 @@ form.addEventListener('submit', async (event) => {
   }
 });
 
-// Gestion de l'affichage des filtres en mode édition
-const filterContainer = document.getElementById('filter-container');
-const token = localStorage.getItem('token'); // Vérifie si le token est présent
-
-if (token) {
-  //Mode édition activé, cacher les boutons de filtre
-  filterContainer.style.display = 'none';
-}
+// Initialisation de l'application
+checkAuthToken();
+checkLoginStatus();
+loadWorks();
