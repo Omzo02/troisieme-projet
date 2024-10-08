@@ -1,3 +1,4 @@
+
 // Vérification du token d'authentification
 function checkAuthToken() {
   const token = localStorage.getItem('token');
@@ -303,15 +304,19 @@ form.addEventListener('submit', async (event) => {
       if (response.ok) {
         const work = await response.json();
         alert('Votre projet a été ajouté avec succès.');
-        form.reset();
+
+        // Masquer le formulaire et afficher la vue de la galerie après ajout
+        addPhotoView.style.display = 'none'; // Masquer le formulaire
+        galleryView.style.display = 'block'; // Afficher la galerie
+
+        form.reset(); // Réinitialise le formulaire
         submitBtn.disabled = true;
         submitBtn.style.backgroundColor = '';
         imageLabel.style.backgroundImage = '';
         imageLabel.innerHTML = '<i class="fa-regular fa-image"></i><span class="upload-text">+ Ajouter photo</span>';
-        createWorkInDom(work);
-        createWorkInModal(work);
-        galleryView.style.display = 'block'; // Affiche la galerie
-        addPhotoView.style.display = 'none'; // Masque la vue d'ajout de photo
+        
+        createWorkInDom(work); // Ajouter l'image dans la galerie
+        createWorkInModal(work); // Ajouter l'image dans la modale
       } else {
         alert('Une erreur est survenue lors de l\'envoi.');
       }
