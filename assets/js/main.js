@@ -186,8 +186,7 @@ function renderModalWorks(worksToRender) {
 // Gestion suppression d'images
 async function deleteWork(id) {
   try {
-    const confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce travail ?");
-    if (!confirmation) return;
+    
 
     const token = localStorage.getItem("token");
     if (!token) {
