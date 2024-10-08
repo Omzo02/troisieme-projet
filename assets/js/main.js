@@ -224,23 +224,42 @@ const categoryInput = document.getElementById('photo-category');
 const submitBtn = form.querySelector('.btn');
 const imageLabel = form.querySelector('.photo-label');
 
-
 // Fonction pour vérifier la validité du formulaire
 function checkFormValidity() {
-  const isPhotoUploaded = photoInput.files.length > 0; // Vérifie si une photo est téléchargée
-  const isTitleFilled = titleInput.value.trim() !== ''; // Vérifie si le titre est renseigné
-  const isCategorySelected = categoryInput.value !== ''; // Vérifie si une catégorie est sélectionnée
+  const isPhotoUploaded = photoInput.files.length > 0;
+  const isTitleFilled = titleInput.value.trim() !== '';
+  const isCategorySelected = categoryInput.value !== '';
 
-  // Si tous les champs sont valides, le bouton est activé, sinon désactivé
-  if (isPhotoUploaded && isTitleFilled && isCategorySelected) {
-    submitBtn.disabled = false;
-    submitBtn.style.backgroundColor = 'green';
-  } else {
-    submitBtn.disabled = true;
-    submitBtn.style.backgroundColor = '';
+  // Vider les messages d'erreur précédents
+  const errorMessages = form.querySelectorAll('.error-message');
+  errorMessages.forEach(message => message.remove());
+
+  if (!isPhotoUploaded) {
+    const photoError = document.createElement('div');
+    photoError.className = 'error-message';
+    photoError.textContent = 'Veuillez télécharger une photo.';
+    photoInput.parentNode.insertBefore(photoError, photoInput.nextSibling);
   }
+
+  if (!isTitleFilled) {
+    const titleError = document.createElement('div');
+    titleError.className = 'error-message';
+    titleError.textContent = 'Veuillez entrer un titre.';
+    titleInput.parentNode.insertBefore(titleError, titleInput.nextSibling);
+  }
+
+  if (!isCategorySelected) {
+    const categoryError = document.createElement('div');
+    categoryError.className = 'error-message';
+    categoryError.textContent = 'Veuillez sélectionner une catégorie.';
+    categoryInput.parentNode.insertBefore(categoryError, categoryInput.nextSibling);
+  }
+
+  submitBtn.disabled = !(isPhotoUploaded && isTitleFilled && isCategorySelected);
+  submitBtn.style.backgroundColor = submitBtn.disabled ? '' : 'green';
 }
 
+// Ajout des événements pour valider en temps réel
 photoInput.addEventListener('change', (event) => {
   const file = event.target.files[0];
   if (file) {
@@ -253,49 +272,53 @@ photoInput.addEventListener('change', (event) => {
     };
     reader.readAsDataURL(file);
   }
-  checkFormValidity(); // Vérifie la validité après avoir téléchargé une photo
+  checkFormValidity();
 });
 
-
-// Ajout des événements pour valider en temps réel
-photoInput.addEventListener('change', checkFormValidity);
 titleInput.addEventListener('input', checkFormValidity);
 categoryInput.addEventListener('change', checkFormValidity);
 
 // Gestion de la soumission du formulaire
 form.addEventListener('submit', async (event) => {
-  event.preventDefault();
+  event.preventDefault(); // Empêche le rechargement de la page
 
-  const formData = new FormData();
-  formData.append('image', photoInput.files[0]);
-  formData.append('title', titleInput.value);
-  formData.append('category', categoryInput.value);
+  // Vérifie la validité du formulaire avant d'envoyer
+  checkFormValidity();
 
-  try {
-    const response = await fetch('http://localhost:5678/api/works', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
+  if (!submitBtn.disabled) {
+    const formData = new FormData();
+    formData.append('image', photoInput.files[0]);
+    formData.append('title', titleInput.value);
+    formData.append('category', categoryInput.value);
 
-    if (response.ok) {
-      alert('Votre projet a été ajouté avec succès.');
-      form.reset();
-      submitBtn.disabled = true;
-      submitBtn.style.backgroundColor = '';
-      imageLabel.style.backgroundImage = '';
-      imageLabel.innerHTML = '<i class="fa-regular fa-image"></i><span class="upload-text">+ Ajouter photo</span>';
-      const work = await response.json();
-      createWorkInDom(work);
-      createWorkInModal(work);
-    } else {
-      alert('Une erreur est survenue lors de l\'envoi.');
+    try {
+      const response = await fetch('http://localhost:5678/api/works', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // Envoie le token
+        },
+      });
+
+      if (response.ok) {
+        const work = await response.json();
+        alert('Votre projet a été ajouté avec succès.');
+        form.reset();
+        submitBtn.disabled = true;
+        submitBtn.style.backgroundColor = '';
+        imageLabel.style.backgroundImage = '';
+        imageLabel.innerHTML = '<i class="fa-regular fa-image"></i><span class="upload-text">+ Ajouter photo</span>';
+        createWorkInDom(work);
+        createWorkInModal(work);
+        galleryView.style.display = 'block'; // Affiche la galerie
+        addPhotoView.style.display = 'none'; // Masque la vue d'ajout de photo
+      } else {
+        alert('Une erreur est survenue lors de l\'envoi.');
+      }
+    } catch (error) {
+      console.error('Erreur lors de l\'envoi des données :', error);
+      alert('Erreur de connexion. Veuillez réessayer plus tard.');
     }
-  } catch (error) {
-    console.error('Erreur lors de l\'envoi des données :', error);
-    alert('Erreur de connexion. Veuillez réessayer plus tard.');
   }
 });
 
