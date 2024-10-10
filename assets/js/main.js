@@ -312,7 +312,16 @@ form.addEventListener('submit', async (event) => {
         submitBtn.disabled = true;
         submitBtn.style.backgroundColor = '';
         imageLabel.style.backgroundImage = '';
-        imageLabel.innerHTML = '<i class="fa-regular fa-image"></i><span class="upload-text">+ Ajouter photo</span>';
+        const icon = document.createElement('i');
+        icon.className = 'fa-regular fa-image';
+        const span = document.createElement('span');
+        span.className = 'upload-text';
+        span.textContent = '+ Ajouter photo';
+
+        // Vider l'imageLabel et ajouter les nouveaux éléments
+        imageLabel.innerHTML = ''; // Vider le contenu précédent
+        imageLabel.appendChild(icon);
+        imageLabel.appendChild(span);
         
         createWorkInDom(work); // Ajouter l'image dans la galerie
         createWorkInModal(work); // Ajouter l'image dans la modale
